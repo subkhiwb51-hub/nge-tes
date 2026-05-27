@@ -75,8 +75,8 @@ body {
 
 /* Kotak hadiah — animasi mengambang naik turun */
 .gift-box {
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   cursor: pointer;
   position: relative;
   animation: float 3s ease-in-out infinite;
@@ -108,7 +108,8 @@ body {
   text-transform: uppercase;
   animation: pulse 2s ease-in-out infinite;
   position:fixed;
-  right: 960px;
+  right: 850px;
+  bottom: 370px;
 }
 
 @keyframes pulse {
@@ -293,7 +294,7 @@ body {
 /* Baris bunga dekoratif di bawah grid */
 .gallery-flowers {
   text-align: center;
-  font-size: 26px;
+  font-size: 30px;
   letter-spacing: 6px;
   margin-bottom: 30px;
 }
