@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Letter Website</title>
+
+  <!--
+    GOOGLE FONTS
+    Tiga font yang dipakai:
+    - Playfair Display  → judul besar, elegan & berkarakter
+    - Cormorant Garamond → teks body, tipis & romantis
+    - Dancing Script     → tanda tangan & teks kursif dekoratif
+  -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Dancing+Script:wght@400;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- File CSS terpisah -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- =================================================
+       BACKGROUND CANVAS
+       Diisi oleh script.js — menggambar partikel bintang
+       dan kelopak bunga yang jatuh sebagai background.
+       ================================================= -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Overlay vignette gelap di tepi layar -->
+  <div class="vignette"></div>
+
+
+  <!-- =================================================
+       MUSIC PLAYER (Dekoratif)
+       Ditampilkan di pojok kiri bawah di semua halaman.
+       Progress bar berjalan otomatis via CSS animation.
+       ================================================= -->
+  <div class="music-player">
+    <div class="album-art">🎵</div>
+    <div class="music-info">
+      <div class="music-title">My Little Bolu Ketan</div>
+      <div class="music-artist">Kanda Bahlil</div>
+      <div class="music-progress">
+        <div class="music-progress-bar"></div>
+      </div>
+      <div class="music-controls">
+        <button class="ctrl-btn">⏮</button>
+        <button class="ctrl-btn">⏸</button>
+        <button class="ctrl-btn">⏭</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =================================================
+       HALAMAN 1: GIFT BOX
+       Halaman pertama yang muncul saat website dibuka.
+       Klik kotak hadiah → panggil openGift() di script.js
+       ================================================= -->
+  <div class="page active" id="page1">
+
+    <!--
+      SVG Kotak Hadiah — digambar manual tanpa gambar eksternal.
+      Terdiri dari: badan kotak, tutup, pita vertikal,
+      pita horizontal, busur kiri & kanan, simpul, kilau, sparkle.
+    -->
+    <div class="gift-box" id="giftBox" onclick="openGift()">
+      <img src="kotak1.png" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+
+    <div class="tap-hint">tap to open ✦</div>
+  </div>
+
+
+  <!-- =================================================
+       HALAMAN 2: LOVE LETTER
+       Muncul setelah kotak hadiah dibuka.
+       ================================================= -->
+  <div class="page" id="page2">
+    <div class="flowers-row">🌸💗🌹</div>
+    <div class="subtitle-italic">from my heart 💗</div>
+
+    <div class="letter-title">
+      You are my<br>
+      <span class="letter-title-italic">
+        wildest dream<br>come true.
+      </span>
+    </div>
+
+    <p class="letter-body">
+      In a world full of ordinary moments, you are the one truly extraordinary.
+      The way you laugh, the way you see the world — it fills me with every feeling
+      I have ever known. No words are enough, yet I want to say everything.
+      Every love I've ever needed — you are it.
+    </p>
+
+    <div class="letter-sign">Always yours 🌹</div>
+
+    <!-- Tombol navigasi ke halaman gallery -->
+    <button class="btn-next" onclick="goToPage('page3')">see more →</button>
+  </div>
+
+
+  <!-- =================================================
+       HALAMAN 3: GALLERY FOTO
+       Grid 2×2 berisi simulasi foto wajah (SVG).
+       Untuk mengganti dengan foto asli, ganti tiap <svg>
+       dengan: <img src="foto-kamu.jpg" style="width:100%;height:100%;object-fit:cover;">
+       ================================================= -->
+  <div class="page" id="page3">
+    <div class="gallery-title">your beautiful</div>
+    <div class="gallery-main-title">Pictures</div>
+
+    <div class="gallery-grid">
+
+      <!-- CARD 1: "you" -->
+      <div class="gallery-card">
+        <img src="image1.jpg" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+
+      <!-- CARD 2: "are" -->
+      <div class="gallery-card">
+        <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="#120608"/>
+          <ellipse cx="100" cy="90"  rx="45" ry="55" fill="#200c14" opacity="0.9"/>
+          <ellipse cx="95"  cy="80"  rx="30" ry="36" fill="#b06878" opacity="0.3"/>
+          <ellipse cx="84"  cy="72"  rx="6"  ry="8"  fill="#9a5060" opacity="0.7"/>
+          <ellipse cx="110" cy="72"  rx="6"  ry="8"  fill="#9a5060" opacity="0.7"/>
+          <path d="M86,92 Q100,102 114,92" stroke="#c07888" stroke-width="1.5" fill="none" opacity="0.4"/>
+          <ellipse cx="100" cy="52"  rx="35" ry="20" fill="#100608"/>
+          <ellipse cx="65"  cy="78"  rx="8"  ry="28" fill="#100608"/>
+          <ellipse cx="135" cy="75"  rx="8"  ry="26" fill="#100608"/>
+          <ellipse cx="100" cy="180" rx="65" ry="40" fill="#1a0810"/>
+        </svg>
+        <div class="gallery-label">are</div>
+        <div class="flower-dot" style="top:14px; left:12px; color:#f0c040;">💛</div>
+      </div>
+
+      <!-- CARD 3: "so" -->
+      <div class="gallery-card">
+        <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="#0e0408"/>
+          <ellipse cx="110" cy="95"  rx="50" ry="60" fill="#1c0a12" opacity="0.9"/>
+          <ellipse cx="105" cy="85"  rx="32" ry="38" fill="#a85e6e" opacity="0.25"/>
+          <ellipse cx="94"  cy="76"  rx="7"  ry="8"  fill="#985060" opacity="0.6"/>
+          <ellipse cx="118" cy="74"  rx="7"  ry="8"  fill="#985060" opacity="0.6"/>
+          <ellipse cx="110" cy="52"  rx="38" ry="22" fill="#0c0408"/>
+          <ellipse cx="70"  cy="80"  rx="10" ry="30" fill="#0c0408"/>
+          <ellipse cx="148" cy="82"  rx="9"  ry="28" fill="#0c0408"/>
+          <ellipse cx="110" cy="190" rx="70" ry="45" fill="#160a10"/>
+        </svg>
+        <div class="gallery-label">so</div>
+      </div>
+
+      <!-- CARD 4: "beautiful" -->
+      <div class="gallery-card">
+        <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="#130709"/>
+          <ellipse cx="95"  cy="100" rx="50" ry="65" fill="#1e0c14" opacity="0.9"/>
+          <ellipse cx="95"  cy="90"  rx="33" ry="40" fill="#b06878" opacity="0.28"/>
+          <ellipse cx="82"  cy="80"  rx="6"  ry="8"  fill="#9a5060" opacity="0.65"/>
+          <ellipse cx="108" cy="79"  rx="6"  ry="8"  fill="#9a5060" opacity="0.65"/>
+          <path d="M84,100 Q98,112 112,100" stroke="#c07888" stroke-width="2" fill="none" opacity="0.5"/>
+          <ellipse cx="95"  cy="56"  rx="37" ry="23" fill="#100608"/>
+          <ellipse cx="56"  cy="86"  rx="9"  ry="32" fill="#100608"/>
+          <ellipse cx="136" cy="84"  rx="9"  ry="30" fill="#100608"/>
+          <ellipse cx="95"  cy="195" rx="68" ry="48" fill="#180a10"/>
+        </svg>
+        <div class="gallery-label">beautiful</div>
+        <div class="flower-dot" style="bottom:44px; right:14px; color:#f8a0c0;">🌸</div>
+        <div class="flower-dot" style="top:14px; left:14px; color:#f0d040;">🌼</div>
+      </div>
+
+    </div><!-- .gallery-grid -->
+
+    <div class="gallery-flowers">🌸🌹🌺</div>
+
+    <div class="page3-btn-row">
+      <button class="btn-next" onclick="goToPage('page4')">always & forever →</button>
+    </div>
+  </div>
+
+
+  <!-- =================================================
+       HALAMAN 4: YOU ARE LOVED BEYOND WORDS
+       Halaman terakhir / penutup.
+       ================================================= -->
+  <div class="page" id="page4">
+    <div class="loved-flowers">🌸💗🌹💐</div>
+    <div class="loved-subtitle">always & forever</div>
+
+    <div class="loved-title">
+      You Are Loved
+      <span class="loved-title-italic">Beyond Words</span>
+    </div>
+
+    <p class="loved-body">
+      No matter where life takes us, know that somewhere in the universe,
+      there is a garden blooming with every feeling I have ever held for you.
+      You deserve the world. You deserve all the flowers. You deserve everything.
+    </p>
+
+    <div class="heart-emoji">💜</div>
+    <div class="made-with-love">Made with love, just for you 🌸</div>
+  </div>
+
+
+  <!-- =================================================
+       TOMBOL CLOSE (×)
+       Muncul di semua halaman kecuali halaman 1.
+       Klik → kembali ke halaman 1 via goHome() di script.js
+       ================================================= -->
+  <button class="close-btn" id="closeBtn" style="display:none" onclick="goHome()">×</button>
+
+
+  <!-- File JavaScript terpisah — letakkan di akhir body
+       agar semua elemen HTML sudah dimuat sebelum JS dijalankan -->
+  <script src="script.js"></script>
+
+</body>
+</html>
