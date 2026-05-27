@@ -220,6 +220,8 @@ function showPage(id) {
 function openGift() {
   const box = document.getElementById('giftBox');
 
+  music.play(); // ✅ TAMBAHKAN BARIS INI
+
   // Perbesar kotak dulu, lalu fade out
   box.style.transition = 'transform 0.3s, opacity 0.5s';
   box.style.transform  = 'scale(1.3)';
@@ -253,3 +255,18 @@ function goHome() {
   box.style.transform = 'scale(1)';
   box.style.opacity   = '1';
 }
+
+
+// ✅ TAMBAHKAN DI SINI — Music Player
+const music   = document.getElementById('bgMusic');
+const playBtn = document.querySelector('.ctrl-btn:nth-child(2)');
+
+playBtn.addEventListener('click', () => {
+  if (music.paused) {
+    music.play();
+    playBtn.textContent = '⏸';
+  } else {
+    music.pause();
+    playBtn.textContent = '▶️';
+  }
+});
