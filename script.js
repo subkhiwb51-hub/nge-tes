@@ -199,7 +199,50 @@ function showPage(id) {
 }
 
 /**
- * spawnLoveParticles()
+ * animateLetter()
+ * Elemen di halaman 2 muncul satu per satu, jeda 300ms.
+ */
+function animateLetter() {
+  const elements = document.querySelectorAll(
+    '#page2 .flowers-row, #page2 .subtitle-italic, #page2 .letter-title, #page2 .letter-body, #page2 .letter-sign, #page2 .btn-next'
+  );
+  elements.forEach(el => {
+    el.style.opacity    = '0';
+    el.style.transform  = 'translateY(20px)';
+    el.style.transition = 'none';
+  });
+  elements.forEach((el, i) => {
+    setTimeout(() => {
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      el.style.opacity    = '1';
+      el.style.transform  = 'translateY(0)';
+    }, i * 300);
+  });
+}
+
+/**
+ * animateClosing()
+ * Elemen di halaman 6 muncul satu per satu, jeda 500ms.
+ */
+function animateClosing() {
+  const elements = document.querySelectorAll(
+    '#page6 .loved-flowers, #page6 .loved-subtitle, #page6 .loved-title, #page6 .loved-body, #page6 .heart-emoji, #page6 .made-with-love'
+  );
+  elements.forEach(el => {
+    el.style.opacity    = '0';
+    el.style.transform  = 'translateY(20px)';
+    el.style.transition = 'none';
+  });
+  elements.forEach((el, i) => {
+    setTimeout(() => {
+      el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      el.style.opacity    = '1';
+      el.style.transform  = 'translateY(0)';
+    }, i * 500);
+  });
+}
+
+/**
  * Membuat 20 emoji ❤️ yang menyebar ke segala arah dari
  * tengah layar saat kotak hadiah diklik, lalu menghilang.
  *
@@ -286,12 +329,18 @@ function openGift() {
   box.style.transition = 'transform 0.3s, opacity 0.5s';
   box.style.transform  = 'scale(1.3)';
   setTimeout(() => { box.style.opacity = '0'; }, 200);
-  setTimeout(() => showPage('page2'), 700);
+  setTimeout(() => {
+    showPage('page2');
+    setTimeout(() => animateLetter(), 100);
+  }, 700);
 }
 
 /** Navigasi ke halaman tertentu */
 function goToPage(id) {
   showPage(id);
+  if (id === 'page6') {
+    setTimeout(() => animateClosing(), 100);
+  }
 }
 
 /** Kembali ke halaman 1 & reset kotak hadiah */
@@ -411,9 +460,23 @@ function buildQuoteDots() {
  */
 function goToQuote(index) {
   quoteIndex = index;
-  quotesTrack.style.transform = `translateX(-${quoteIndex * 100}%)`;
 
-  // Update class 'active' pada dot
+  // Fade out dulu
+  quotesTrack.style.opacity = '0';
+  quotesTrack.style.transform = `translateX(-${quoteIndex * 100}%) translateY(10px)`;
+
+  setTimeout(() => {
+    // Pindah slide lalu fade in
+    quotesTrack.style.transition = 'none';
+    quotesTrack.style.transform = `translateX(-${quoteIndex * 100}%) translateY(10px)`;
+    
+    requestAnimationFrame(() => {
+      quotesTrack.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease';
+      quotesTrack.style.opacity = '1';
+      quotesTrack.style.transform = `translateX(-${quoteIndex * 100}%) translateY(0px)`;
+    });
+  }, 200);
+
   document.querySelectorAll('#quoteDots .dot').forEach((dot, i) => {
     dot.classList.toggle('active', i === quoteIndex);
   });
@@ -529,6 +592,37 @@ function nextPhoto() {
 })();
 
 buildPhotoDots();   // Inisialisasi dots foto saat halaman dimuat
+
+/* =====================================================
+   EMOJI BERJATUHAN — pakai HTML agar tampil di depan
+   ===================================================== */
+const emojiList = ['🌼','🌻','🪷','🌸','🌺','🍁','💖','💛'];
+
+function createFallingEmoji() {
+  const el = document.createElement('span');
+  el.textContent = emojiList[Math.floor(Math.random() * emojiList.length)];
+  const size     = Math.random() * 24 + 14;
+  const startX   = Math.random() * 100;
+  const duration = Math.random() * 6 + 5;
+  const delay    = Math.random() * 4;
+
+  Object.assign(el.style, {
+    position:      'fixed',
+    top:           '-60px',
+    left:          startX + 'vw',
+    fontSize:      size + 'px',
+    opacity:       (Math.random() * 0.5 + 0.4).toString(),
+    zIndex:        '999',
+    pointerEvents: 'none',
+    animation:     `emojifall ${duration}s ${delay}s linear infinite`,
+  });
+
+  document.body.appendChild(el);
+}
+
+for (let i = 0; i < 12; i++) {
+  createFallingEmoji();
+}
 
 
 function togglePlayer() {
