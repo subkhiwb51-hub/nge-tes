@@ -4,154 +4,137 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Love Letter Website</title>
-
-  <!--
-    GOOGLE FONTS
-    Tiga font yang dipakai:
-    - Playfair Display  → judul besar, elegan & berkarakter
-    - Cormorant Garamond → teks body, tipis & romantis
-    - Dancing Script     → tanda tangan & teks kursif dekoratif
-  -->
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Dancing+Script:wght@400;700&display=swap"
     rel="stylesheet"
   >
-
-  <!-- File CSS terpisah -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <audio id="bgMusic" loop>
-  <source src="lagu1.mp3" type="audio/mpeg" >
+  <source src="mbg.mp3" type="audio/mpeg">
 </audio>
 
-  <!-- =================================================
-       BACKGROUND CANVAS
-       Diisi oleh script.js — menggambar partikel bintang
-       dan kelopak bunga yang jatuh sebagai background.
-       ================================================= -->
   <canvas id="bg-canvas"></canvas>
-
-  <!-- Overlay vignette gelap di tepi layar -->
   <div class="vignette"></div>
 
-
   <!-- =================================================
-       MUSIC PLAYER (Dekoratif)
-       Ditampilkan di pojok kiri bawah di semua halaman.
-       Progress bar berjalan otomatis via CSS animation.
+       MUSIC PLAYER — Layout vertikal, pojok kiri bawah
+       Urutan: thumbnail → judul/artis → progress → kontrol → volume
        ================================================= -->
   <div class="music-player">
-    <div class="album-art">🎵</div>
+
+    <!-- 1. Thumbnail album -->
+    <div class="album-art">
+      <img src="foto5.jpg" alt="album art" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">
+</div>
+
+    <!-- 2. Judul & artis -->
     <div class="music-info">
-      <div class="music-title">My Little Bolu Ketan</div>
+      <div class="music-title">My Little Bolu Kertan</div>
       <div class="music-artist">Kanda Bahlil</div>
-      <div class="music-progress">
-        <div class="music-progress-bar"></div>
-      </div>
-      <div class="music-controls">
-        <button class="ctrl-btn">⏮</button>
-        <button class="ctrl-btn">⏸</button>
-        <button class="ctrl-btn">⏭</button>
-      </div>
     </div>
+
+    <!-- 3. Progress bar -->
+    <div class="music-progress">
+      <div class="music-progress-bar"></div>
+    </div>
+
+    <!-- 4. Tombol kontrol ⏮ ⏸ ⏭ -->
+    <div class="music-controls">
+      <button class="ctrl-btn">⏮</button>
+      <button class="ctrl-btn" id="playPauseBtn">⏸</button>
+      <button class="ctrl-btn">⏭</button>
+    </div>
+
+    <!-- 5. Bar volume — ikon + slider horizontal -->
+    <div class="volume-row">
+      <span class="vol-icon" id="volIcon">🔊</span>
+      <!--
+        <input type="range"> adalah slider HTML bawaan.
+        min="0" max="100" value="80" → nilai awal 80%
+        Styling slider diatur di CSS (style.css bagian volume)
+        Logika perubahan volume diatur di script.js
+      -->
+      <input
+        type="range"
+        id="volumeSlider"
+        class="volume-slider"
+        min="0"
+        max="100"
+        value="80"
+      >
+    </div>
+
   </div>
 
 
   <!-- =================================================
        HALAMAN 1: GIFT BOX
-       Halaman pertama yang muncul saat website dibuka.
-       Klik kotak hadiah → panggil openGift() di script.js
        ================================================= -->
   <div class="page active" id="page1">
-
-    <!--
-      SVG Kotak Hadiah — digambar manual tanpa gambar eksternal.
-      Terdiri dari: badan kotak, tutup, pita vertikal,
-      pita horizontal, busur kiri & kanan, simpul, kilau, sparkle.
-    -->
     <div class="gift-box" id="giftBox" onclick="openGift()">
       <img src="kotak1.png" style="width:100%;height:100%;object-fit:cover;">
     </div>
-
     <div class="tap-hint">tap to open ✦</div>
   </div>
 
 
   <!-- =================================================
        HALAMAN 2: LOVE LETTER
-       Muncul setelah kotak hadiah dibuka.
        ================================================= -->
   <div class="page" id="page2">
     <div class="flowers-row">🌸💗🌹</div>
     <div class="subtitle-italic">from my heart 💗</div>
-
     <div class="letter-title">
       You are my<br>
-      <span class="letter-title-italic">
-        wildest dream<br>come true.
-      </span>
+      <span class="letter-title-italic">wildest dream<br>come true.</span>
     </div>
-
     <p class="letter-body">
       In a world full of ordinary moments, you are the one truly extraordinary.
       The way you laugh, the way you see the world — it fills me with every feeling
       I have ever known. No words are enough, yet I want to say everything.
       Every love I've ever needed — you are it.
     </p>
-
     <div class="letter-sign">Always yours 🌹</div>
-
-    <!-- Tombol navigasi ke halaman gallery -->
     <button class="btn-next" onclick="goToPage('page3')">see more →</button>
   </div>
 
 
   <!-- =================================================
-       HALAMAN 3: GALLERY FOTO
-       Grid 2×2 berisi simulasi foto wajah (SVG).
-       Untuk mengganti dengan foto asli, ganti tiap <svg>
-       dengan: <img src="foto-kamu.jpg" style="width:100%;height:100%;object-fit:cover;">
+       HALAMAN 3: GALLERY FOTO (grid 2×2)
        ================================================= -->
   <div class="page" id="page3">
     <div class="gallery-title">your beautiful</div>
     <div class="gallery-main-title">Pictures</div>
-
     <div class="gallery-grid">
 
-      <!-- CARD 1: "you" -->
       <div class="gallery-card">
-        <img src="image1.jpg" style="width:100%;height:100%;object-fit:cover;">
-        <div class="gallery-label">are</div>
-        <div class="flower-dot" style="top:12px; left:12px; color:#f040ca; font-size:23px; ">🌸</div>
+        <img src="foto8.jpg" style="width:100%;height:100%;object-fit:cover;">
+        <div class="gallery-label">you</div>
+        <div class="flower-dot" style="top:12px;right:14px;color:#e8c0d0;">🌸</div>
       </div>
 
-      <!-- CARD 2: "are" -->
       <div class="gallery-card">
-        <img src="image2.jpg" style="width:100%;height:100%;object-fit:cover;">
+        <img src="foto7.jpeg" style="width:100%;height:100%;object-fit:cover;">
         <div class="gallery-label">are</div>
-        <div class="flower-dot" style="top:12px; left:12px; color:#f0a440; font-size:23px; ">🍂</div>
+        <div class="flower-dot" style="top:14px;left:12px;color:#f0c040;">💛</div>
       </div>
 
-      <!-- CARD 3: "so" -->
       <div class="gallery-card">
-        <img src="image3.jpg" style="width:100%;height:100%;object-fit:cover;">
+        <img src="foto6.jpg" style="width:100%;height:100%;object-fit:cover;">
         <div class="gallery-label">so</div>
-        <div class="flower-dot" style="top:12px; left:12px; color:#f0c040; font-size:23px; ">💛</div>
       </div>
 
-      <!-- CARD 4: "beautiful" -->
       <div class="gallery-card">
-        <img src="image4.jpg" style="width:100%;height:100%;object-fit:cover;">
+        <img src="foto5.jpg" style="width:100%;height:100%;object-fit:cover;">
         <div class="gallery-label">beautiful</div>
-        <div class="flower-dot" style="top:12px; left:14px; color:#f0d040; font-size:23px;">🌼</div>
+        <div class="flower-dot" style="bottom:44px;right:14px;color:#f8a0c0;">🌸</div>
+        <div class="flower-dot" style="top:14px;left:14px;color:#f0d040;">🌼</div>
       </div>
 
-    </div><!-- .gallery-grid -->
-
-    <div class="gallery-flowers">🌸🌹🌺 
     </div>
-
+    <div class="gallery-flowers">🌸🌹🌺</div>
     <div class="page3-btn-row">
       <button class="btn-next" onclick="goToPage('page4')">always & forever →</button>
     </div>
@@ -159,40 +142,174 @@
 
 
   <!-- =================================================
-       HALAMAN 4: YOU ARE LOVED BEYOND WORDS
-       Halaman terakhir / penutup.
+       HALAMAN 4: KATA-KATA INDAH (SLIDER)
+       Berisi kutipan romantis yang bisa di-slide kiri/kanan.
+       Setiap slide = satu .quote-slide di dalam .quotes-track
        ================================================= -->
   <div class="page" id="page4">
+    <div class="flowers-row">✨🌸✨</div>
+    <div class="subtitle-italic">words from the heart</div>
+
+    <!--
+      STRUKTUR SLIDER:
+      .quotes-wrapper  → kotak pembatas (overflow: hidden)
+        .quotes-track  → pita panjang berisi semua slide berderet
+          .quote-slide → satu slide kutipan
+          .quote-slide
+          ...
+      Slider digerakkan dengan menggeser .quotes-track secara horizontal via JS
+    -->
+    <div class="quotes-wrapper">
+      <div class="quotes-track" id="quotesTrack">
+
+        <!-- SLIDE 1 -->
+        <div class="quote-slide">
+          <div class="quote-deco">❝</div>
+          <p class="quote-text">
+            You are the poem I never knew how to write,
+            and this life is the story I have always wanted to tell.
+          </p>
+          <div class="quote-author">— forever yours</div>
+        </div>
+
+        <!-- SLIDE 2 -->
+        <div class="quote-slide">
+          <div class="quote-deco">❝</div>
+          <p class="quote-text">
+            In your eyes, I found a home. In your smile,
+            I found my reason to believe in beautiful things.
+          </p>
+          <div class="quote-author">— with all my heart</div>
+        </div>
+
+        <!-- SLIDE 3 -->
+        <div class="quote-slide">
+          <div class="quote-deco">❝</div>
+          <p class="quote-text">
+            If I could give you one thing, it would be the ability
+            to see yourself through my eyes — only then would you
+            understand how truly loved you are.
+          </p>
+          <div class="quote-author">— always & forever</div>
+        </div>
+
+        <!-- SLIDE 4 -->
+        <div class="quote-slide">
+          <div class="quote-deco">❝</div>
+          <p class="quote-text">
+            Every moment with you feels like the universe
+            is finally making sense — like I was always meant
+            to find you.
+          </p>
+          <div class="quote-author">— till the end of time</div>
+        </div>
+
+      </div><!-- .quotes-track -->
+    </div><!-- .quotes-wrapper -->
+
+    <!-- Tombol navigasi slider kiri & kanan -->
+    <div class="slider-nav">
+      <button class="slide-btn" onclick="prevQuote()">‹</button>
+
+      <!-- Titik indikator — satu per slide, diupdate oleh JS -->
+      <div class="slide-dots" id="quoteDots"></div>
+
+      <button class="slide-btn" onclick="nextQuote()">›</button>
+    </div>
+
+    <button class="btn-next" onclick="goToPage('page5')" style="margin-top:28px;">see our moments →</button>
+  </div>
+
+
+  <!-- =================================================
+       HALAMAN 5: ALBUM FOTO (SLIDER)
+       Berisi foto yang bisa di-swipe/slide kiri & kanan.
+       Ganti <svg> dengan <img src="..."> untuk foto asli.
+       ================================================= -->
+  <div class="page" id="page5">
+    <div class="gallery-title">our moments</div>
+    <div class="gallery-main-title">Together</div>
+
+    <!--
+      STRUKTUR SAMA seperti slider quotes di atas,
+      tapi isinya foto (SVG placeholder) bukan teks.
+    -->
+    <div class="photo-slider-wrapper">
+      <div class="photo-slider-track" id="photoTrack">
+
+        <!-- FOTO 1 -->
+        <div class="photo-slide">
+          <!--
+            Ganti blok <svg> di bawah dengan:
+            <img src="foto1.jpg" alt="momen 1">
+            pastikan file .jpg ada di folder yang sama
+          -->
+          <div class="photo-frame">
+            <img src="image1.jpg" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div class="photo-slide-caption">our first memory 🌸</div>
+        </div>
+
+        <!-- FOTO 2 -->
+        <div class="photo-slide">
+          <div class="photo-frame">
+            <img src="image2.jpg" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div class="photo-slide-caption">side by side 💜</div>
+        </div>
+
+        <!-- FOTO 3 -->
+        <div class="photo-slide">
+          <div class="photo-frame">
+            <img src="image3.jpg" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div class="photo-slide-caption">under the stars ⭐</div>
+        </div>
+
+        <!-- FOTO 4 -->
+        <div class="photo-slide">
+          <div class="photo-frame">
+            <img src="image4.jpg" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div class="photo-slide-caption">my favorite person 🌹</div>
+        </div>
+
+      </div><!-- .photo-slider-track -->
+    </div><!-- .photo-slider-wrapper -->
+
+    <!-- Navigasi slider foto -->
+    <div class="slider-nav">
+      <button class="slide-btn" onclick="prevPhoto()">‹</button>
+      <div class="slide-dots" id="photoDots"></div>
+      <button class="slide-btn" onclick="nextPhoto()">›</button>
+    </div>
+
+    <button class="btn-next" onclick="goToPage('page6')" style="margin-top:28px;">always & forever →</button>
+  </div>
+
+
+  <!-- =================================================
+       HALAMAN 6: YOU ARE LOVED (halaman penutup)
+       ================================================= -->
+  <div class="page" id="page6">
     <div class="loved-flowers">🌸💗🌹💐</div>
     <div class="loved-subtitle">always & forever</div>
-
     <div class="loved-title">
       You Are Loved
       <span class="loved-title-italic">Beyond Words</span>
     </div>
-
     <p class="loved-body">
       No matter where life takes us, know that somewhere in the universe,
       there is a garden blooming with every feeling I have ever held for you.
       You deserve the world. You deserve all the flowers. You deserve everything.
     </p>
-
-    <div class="heart-emoji">💖</div>
+    <div class="heart-emoji">💗</div>
     <div class="made-with-love">Made with love, just for you 🌸</div>
   </div>
 
 
-  <!-- =================================================
-       TOMBOL CLOSE (×)
-       Muncul di semua halaman kecuali halaman 1.
-       Klik → kembali ke halaman 1 via goHome() di script.js
-       ================================================= -->
   <button class="close-btn" id="closeBtn" style="display:none" onclick="goHome()">×</button>
 
-
-  <!-- File JavaScript terpisah — letakkan di akhir body
-       agar semua elemen HTML sudah dimuat sebelum JS dijalankan -->
   <script src="script.js"></script>
-
 </body>
 </html>
