@@ -281,11 +281,16 @@ function openGift() {
 
   music.play(); // ✅ TAMBAHKAN BARIS INI
 
+  document.querySelector('.music-player').style.display = 'flex';
   const box = document.getElementById('giftBox');
   box.style.transition = 'transform 0.3s, opacity 0.5s';
   box.style.transform  = 'scale(1.3)';
   setTimeout(() => { box.style.opacity = '0'; }, 200);
   setTimeout(() => showPage('page2'), 700);
+
+  document.querySelector('.music-player').style.display = 'flex';
+
+  
 }
 
 /** Navigasi ke halaman tertentu */
@@ -528,3 +533,11 @@ function nextPhoto() {
 })();
 
 buildPhotoDots();   // Inisialisasi dots foto saat halaman dimuat
+
+
+function togglePlayer() {
+  const player = document.querySelector('.music-player');
+  const btn = document.getElementById('minimizeBtn');
+  player.classList.toggle('minimized');
+  btn.textContent = player.classList.contains('minimized') ? '+' : '−';
+}

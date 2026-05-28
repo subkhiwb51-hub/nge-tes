@@ -398,11 +398,37 @@ body {
   border-radius: 16px;
   padding: 16px 14px 14px;
   display: flex;
-  flex-direction: column;    /* Memanjang ke atas — susun elemen secara vertikal */
-  align-items: center;       /* Semua elemen rata tengah secara horizontal */
+  flex-direction: column;
+  align-items: center;
   gap: 10px;
   backdrop-filter: blur(12px);
-  width: 150px;              /* Lebar tetap agar proporsional */
+  width: 150px;
+  transition: all 0.3s ease;
+  display: none; /* tambahkan ini */
+}                            /* ← tutup di sini */
+
+#minimizeBtn {
+  background: none;
+  border: none;
+  color: rgba(240, 180, 210, 0.7);
+  font-size: 18px;
+  cursor: pointer;
+  align-self: flex-end;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+#minimizeBtn:hover {
+  color: #fff;
+}
+
+.music-player.minimized .album-art,
+.music-player.minimized .music-info,
+.music-player.minimized .music-progress,
+.music-player.minimized .music-controls,
+.music-player.minimized .volume-row {
+  display: none;
 }
 
 /* Thumbnail album — besar di tengah atas */
@@ -450,6 +476,20 @@ body {
   border-radius: 2px;
   overflow: hidden;
 }
+
+/* Styling tombol minimize */
+#minimizeBtn {
+  background: none;
+  border: none;
+  color: rgba(240, 180, 210, 0.7);
+  font-size: 18px;
+  cursor: pointer;
+  align-self: flex-end;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.2s;
+}
+
 
 /* Bar dikendalikan sepenuhnya oleh JavaScript via music.timeupdate */
 .music-progress-bar {
